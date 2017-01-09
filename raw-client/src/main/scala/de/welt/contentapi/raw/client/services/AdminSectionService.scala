@@ -5,7 +5,7 @@ import javax.inject.{Inject, Singleton}
 
 import com.google.common.base.Stopwatch
 import de.welt.contentapi.core.client.services.s3.S3Client
-import de.welt.contentapi.raw.models.{ChannelUpdate, RawChannel, RawChannelConfiguration, RawChannelStage}
+import de.welt.contentapi.raw.models.{ChannelUpdate, RawChannel, RawChannelConfiguration, RawChannelStage, RawChannelStageConfiguration}
 import de.welt.contentapi.utils.Env.{Env, Live, Preview}
 import de.welt.contentapi.utils.Loggable
 import play.api.cache.CacheApi
@@ -16,6 +16,7 @@ trait AdminSectionService extends RawTreeService {
 
   def updateChannel(channel: RawChannel,
                     updatedChannelData: RawChannelConfiguration,
+                    updatedChannelConfiguration: Option[RawChannelStageConfiguration],
                     user: String,
                     updatedStages: Option[Seq[RawChannelStage]])(implicit env: Env): Option[RawChannel]
 
@@ -34,7 +35,11 @@ class AdminSectionServiceImpl @Inject()(config: Configuration,
                                         cache: CacheApi)
   extends RawTreeServiceImpl(s3, config, environment, cache) with AdminSectionService with Loggable {
 
-  override def updateChannel(channel: RawChannel, updatedChannelData: RawChannelConfiguration, user: String, updatedStages: Option[Seq[RawChannelStage]] = None)
+  override def updateChannel(channel: RawChannel,
+                             updatedChannelData: RawChannelConfiguration,
+                             updatedChannelConfiguration: Option[RawChannelStageConfiguration],
+                             user: String,
+                             updatedStages: Option[Seq[RawChannelStage]] = None)
                             (implicit env: Env): Option[RawChannel] = {
 
     // update channel
@@ -43,6 +48,7 @@ class AdminSectionServiceImpl @Inject()(config: Configuration,
       header = updatedChannelData.header,
       theme = updatedChannelData.theme,
       metadata = updatedChannelData.metadata,
+      sponsoring = updatedChannelData.sponsoring,
       content = updatedChannelData.content
     )
     // update meta data
@@ -52,6 +58,7 @@ class AdminSectionServiceImpl @Inject()(config: Configuration,
     )
     // update the stages/modules
     channel.stages = updatedStages
+    channel.stageConfiguration = updatedChannelConfiguration
 
     log.info(s"$channel changed by $user")
 
