@@ -1,5 +1,11 @@
 # Changelog
 
+## 1.2 merge with master (2017-10-18)
+### Changes
+- [RAW] added field `hideCuratedStageLabel` as part of `RawChannelStageCurated`
+- [CORE] add field `IdParam` to `ApiContentSearch`
+
+
 ## 1.1 (2017-07-21)
 
 - Upgraded to Playframework 2.6.2 
