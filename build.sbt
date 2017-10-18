@@ -8,7 +8,7 @@ import scala.util.Properties
 
 val isSnapshot = false
 val PlayVersion = "2.6.6"
-val actualVersion: String = s"1.1.${Properties.envOrElse("BUILD_NUMBER", "0-local")}"
+val actualVersion: String = s"1.3.${Properties.envOrElse("BUILD_NUMBER", "0-local")}"
 
 def withTests(project: Project) = project % "test->test;compile->compile"
 

@@ -1,5 +1,11 @@
 # Changelog
 
+## 1.3 (2017-10-19) 
+
+### Changes
+- [CORE] add field `validFromDate` to `ApiMetadata`
+
+
 ## 1.2 merge with master (2017-10-18)
 ### Changes
 - [RAW] added field `hideCuratedStageLabel` as part of `RawChannelStageCurated`
